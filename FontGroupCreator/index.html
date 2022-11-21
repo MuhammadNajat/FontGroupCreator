@@ -1,0 +1,58 @@
+<?php
+   if(isset($_FILES['FileInput'])){
+      $errors= array();
+      $file_name = $_FILES['FileInput']['name'];
+      $file_size =$_FILES['FileInput']['size'];
+      $file_tmp =$_FILES['FileInput']['tmp_name'];
+      $file_type=$_FILES['FileInput']['type'];
+      $file_ext=strtolower(end(explode('.',$_FILES['FileInput']['name'])));
+      
+      //$extensions= array("jpeg","jpg","png");
+      $extensions= array("ttf");
+      
+      if(in_array($file_ext,$extensions)=== false){
+         $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+      }
+      
+      if(empty($errors)==true){
+         move_uploaded_file($file_tmp,"images/".$file_name);
+         echo "Success";
+      }else{
+         print_r($errors);
+      }
+   }
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag & Drop or Browse: File Upload | CodingNepal</title>
+    <link rel="stylesheet" href="style/dragAndDropStyle.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+
+<body>
+
+  <div class="drag-area">
+    <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+    <header id="instructionHeader"><b>Click to upload</b> or drag and drop</header>
+    <span id="instructionSpan">Only TTF File Allowed</span>
+
+    <!--
+    <?php if(isset($_FILES['FileInput'])) {
+      echo "<script>alert("FILE UPLOADED!");</script>"; 
+    ?>
+    -->
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+        <input name="FileInput" type="file" hidden/>
+        <input name="SubmitInput" type="submit" onclick="alert('submit button clicked');" hidden/>
+    </form>
+  </div>
+
+  <script src="script//dragAndDropEnabler.js"></script>
+
+</body>
+</html>
